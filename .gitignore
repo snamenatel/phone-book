@@ -12,3 +12,5 @@ npm-debug.log
 yarn-error.log
 /.idea
 /.vscode
+/storage/api-docs/api-docs.json
+/resources/views/vendor/l5-swagger/index.blade.php
