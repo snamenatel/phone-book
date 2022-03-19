@@ -6,7 +6,6 @@ use App\Exceptions\CreateDuplicateModelException;
 use App\Models\User;
 use App\Repositories\UserRepository;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class UserRepositoryTest extends TestCase
