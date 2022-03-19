@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
 
@@ -53,5 +54,19 @@ class UserControllerTest extends TestCase
         $this->actingAs(User::first());
         $this->post(route('logout'))->assertStatus(Response::HTTP_OK);
         $this->assertNull(Auth::user());
+    }
+
+    public function test_password_reset()
+    {
+        $this->post(route('password.forget'), ['email' => self::USER_EMAIL])->assertStatus(Response::HTTP_OK);
+        $email = DB::table('password_resets')->latest()->value('email');
+        $this->assertEquals(self::USER_EMAIL, $email);
+    }
+
+    public function test_password_reset_show()
+    {
+        [ 'email' => $email,'token' => $token] = $this->get(route('password.reset', ['email' => self::USER_EMAIL, 'token' => 'user_token']));
+        $this->assertEquals(self::USER_EMAIL, $email);
+        $this->assertEquals('user_token', $token);
     }
 }

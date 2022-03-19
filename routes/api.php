@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\UserController;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,6 +18,13 @@ use Illuminate\Support\Facades\Route;
 Route::group(['prefix' => 'v1'], function() {
     Route::post('/register', [UserController::class, 'register'])->name('register');
     Route::post('/login', [UserController::class, 'login'])->name('login');
+    Route::get('/login', fn() => response('Unauthorized ', Response::HTTP_UNAUTHORIZED));
     Route::post('/logout', [UserController::class, 'logout'])->name('logout');
+
+    Route::post('/password_reset', [UserController::class, 'passwordForget'])->name('password.forget');
+    Route::get('/password_reset', [UserController::class, 'passwordResetShow'])->name('password.reset');
+    Route::patch('/password_reset', [UserController::class, 'passwordUpdate'])->name('password.update');
+
+    Route::middleware('auth:sanctum')->get('/user', [UserController::class, 'show'])->name('user.show');
 });
 
