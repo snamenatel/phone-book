@@ -6,6 +6,7 @@ use App\Models\Contact;
 use App\Models\Phone;
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Http\Response;
 use Tests\TestCase;
 
 class ContactControllerTest extends TestCase
@@ -15,6 +16,8 @@ class ContactControllerTest extends TestCase
     const CONTACT_NAME = 'TEST NAME';
     const CONTACT_PHONE = '+79232528646';
     const CONTACT_PHONE_FORMATTED = '8 (923) 252-86-46';
+    const NOT_EXISTING_PHONE = '+79231931931';
+    const NOT_EXISTING_PHONE_FORMATTED = '8 (923) 193-19-31';
 
     protected function setUp(): void
     {
@@ -48,4 +51,29 @@ class ContactControllerTest extends TestCase
         $response = $this->getJson(route('contacts.index', ['phone' => self::CONTACT_PHONE]))->json();
         $this->assertTrue(collect($response)->every(fn($item) => in_array(self::CONTACT_PHONE_FORMATTED, $item['phones'])));
     }
+
+    public function test_store_success()
+    {
+        $response = $this->postJson(route(
+                'contacts.store', [
+                'name' => self::CONTACT_NAME,
+                'phone' => [self::NOT_EXISTING_PHONE]
+            ])
+        )->json();
+        $this->assertTrue($response['data']['phones'][0] == self::NOT_EXISTING_PHONE_FORMATTED);
+    }
+
+    public function test_store_wrong_request()
+    {
+        $response = $this->postJson(route('contacts.store', ['name' => self::CONTACT_NAME]));
+        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
+    }
+
+    public function test_store_wrong_duplicate()
+    {
+        $this->postJson(route('contacts.store', [
+                'name' => self::CONTACT_NAME, 'phone' => [self::CONTACT_PHONE]])
+        )->assertStatus(500);
+    }
+
 }

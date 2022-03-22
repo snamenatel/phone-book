@@ -6,7 +6,10 @@ namespace App\Repositories;
 
 use App\Exceptions\CreateDuplicateModelException;
 use App\Http\Requests\ContactSearchRequest;
+use App\Http\Requests\ContactStoreRequest;
+use App\Http\Resources\ContactResource;
 use App\Models\Contact;
+use App\Models\Phone;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 
@@ -26,16 +29,25 @@ class ContactRepository
             ->get();
     }
 
-    public function create(array $fields)
+    public function store(ContactStoreRequest $request): ContactResource
     {
-        if ($this->findByPhone($fields['phone'])->isNotEmpty()) {
-            throw new CreateDuplicateModelException('Create contact duplicate phone number');
+        if ($this->findByPhones($request->phone)->isNotEmpty()) {
+            throw new CreateDuplicateModelException('Create user with existing email');
         }
-        return Contact::create($fields);
+
+        $contact = Contact::create($request->only('name'));
+        $phones = collect($request->phone)->map(fn($el) => ['phone' => $this->formatPhoneToSearch($el)])->toArray();
+        $contact->phones()->createMany($phones);
+        return ContactResource::make($contact);
     }
 
     public function formatPhoneToSearch(string $phone): string
     {
         return preg_replace(['/\D/', '/^[78]/'], ['', '+7'], $phone);
+    }
+
+    private function findByPhones(array $phones): Collection
+    {
+        return Phone::whereIn('phone', array_map(fn($item) => $this->formatPhoneToSearch($item), $phones))->get();
     }
 }

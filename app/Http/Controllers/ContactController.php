@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ContactStoreRequest;
 use App\Http\Requests\ContactSearchRequest;
 use App\Http\Resources\ContactResource;
 use App\Repositories\ContactRepository;
@@ -24,26 +25,14 @@ class ContactController extends Controller
         );
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function store(ContactStoreRequest $request): ContactResource
     {
-        dd(1);
-        $this->repository->findByPhone($request->phone);
+        return $this->repository->store($request);
     }
 
     /**
