@@ -16,8 +16,12 @@ namespace App\Virtual\Controllers;
  * )
  *
  * @OA\Tag(
- *     name="Auth",
- *     description="API Endpoints of user registration and authentication"
+ *     name="auth",
+ *     description="API Endpoints registration and authentication"
+ * )
+ *  @OA\Tag(
+ *     name="contact",
+ *     description="API Endpoints contactacts"
  * )
  */
 class ControllerSchema
