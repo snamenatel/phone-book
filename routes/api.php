@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Route;
@@ -25,6 +26,8 @@ Route::group(['prefix' => 'v1'], function() {
     Route::get('/password_reset', [UserController::class, 'passwordResetShow'])->name('password.reset');
     Route::patch('/password_reset', [UserController::class, 'passwordUpdate'])->name('password.update');
 
-    Route::middleware('auth:sanctum')->get('/user', [UserController::class, 'show'])->name('user.show');
+    Route::get('/user', [UserController::class, 'show'])->middleware('auth:sanctum')->name('user.show');
+
+    Route::resource('contacts', ContactController::class)->middleware('auth:sanctum');
 });
 
