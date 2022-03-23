@@ -58,6 +58,40 @@ namespace App\Virtual\Controllers;
  *     )
  * )
  *
+ *  @OA\Patch(
+ *     path="/contacts/{contact}",
+ *     summary="Update contact",
+ *     tags={"contacts"},
+ *     security={{"sanctum": {}}},
+ *     @OA\RequestBody(
+ *          @OA\JsonContent(
+ *              @OA\Property(property="name", type="string", example="Ivanov Ivan"),
+ *              @OA\Property(
+ *                  property="phone",
+ *                  type="array",
+ *                  example={ "8 (958) 035-63-80", "+79356910752" },
+ *                  @OA\Items(type="string")
+ *              )
+ *          )
+ *     ),
+ *     @OA\Response (
+ *         response="200",
+ *         description="Succes"
+ *     ),
+ *     @OA\Response(
+ *        response="401",
+ *        description="Unauthorized",
+ *     ),
+ *     @OA\Response(
+ *        response="422",
+ *        description="Wrong request",
+ *     ),
+ *     @OA\Response(
+ *        response="500",
+ *        description="Wrong",
+ *     )
+ * )
+ *
  * @OA\Get (
  *     path="/contacts/{id}",
  *     summary="Show contact",

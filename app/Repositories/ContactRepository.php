@@ -45,14 +45,22 @@ class ContactRepository
         return ContactResource::make($contact);
     }
 
-    public function update(Request $request, Contact $contact)
+    public function update(Request $request, int $id)
     {
-        if ($contact->name !== $request->name) {
+        $changed = false;
+        $contact = Contact::with(['phones'])->findOrFail($id);
+        if ($request->name && $contact->name !== $request->name) {
             $contact->update(['name' => $request->name]);
+            $changed = true;
         }
 
-        $contact->phones()->delete();
-        $this->storePhones($contact, $request->phone);
+        if (count($request->input('phone', []))) {
+            $contact->phones()->delete();
+            $this->storePhones($contact, $request->phone);
+            $changed = true;
+        }
+
+        return response()->json(['message' => $changed ? 'Контакт был изменен' : 'Нечего изменять']);
     }
 
     public function formatPhoneToSearch(string $phone): string

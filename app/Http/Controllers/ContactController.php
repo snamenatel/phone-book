@@ -49,16 +49,9 @@ class ContactController extends Controller
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    public function update(Request $request, int $contact)
     {
-        return $this->repository->update($request);
+        return $this->repository->update($request, $contact);
     }
 
     /**

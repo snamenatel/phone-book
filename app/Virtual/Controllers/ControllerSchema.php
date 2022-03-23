@@ -20,7 +20,7 @@ namespace App\Virtual\Controllers;
  *     description="API Endpoints registration and authentication"
  * )
  *  @OA\Tag(
- *     name="contact",
+ *     name="contacts",
  *     description="API Endpoints contactacts"
  * )
  */
