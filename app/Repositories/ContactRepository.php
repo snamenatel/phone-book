@@ -19,7 +19,8 @@ class ContactRepository
 {
     public function search(ContactSearchRequest $request): Collection
     {
-        return Contact::with(['phones', 'author:id,name'])
+        return Contact::select('contacts.*')
+            ->with(['phones', 'author:id,name'])
             ->when($request->name, fn($query) => $query->where('name', 'LIKE', "%{$request->name}%"))
             ->when($request->phone, function ($query) use ($request) {
                 $query->whereHas('phones', fn($q) => $q->where('phone', 'LIKE', "%{$request->phone}%"));
@@ -28,6 +29,10 @@ class ContactRepository
                 $query->whereHas('author', fn($q) => $q->where('name', 'LIKE', "%{$request->author}%"));
             })
             ->when($request->my, fn($q) => $q->where('author_id', Auth::id()))
+            ->when($request->favorite, function ($q) {
+                $q->join('contact_user as c_u', 'c_u.contact_id', 'contacts.id')
+                    ->where('c_u.user_id', Auth::id());
+            })
             ->orderBy('name')
             ->get();
     }
@@ -73,6 +78,25 @@ class ContactRepository
         $contact->delete();
 
         return response()->json(['message' => 'Контакт был удален']);
+    }
+
+    public function favorite(int $id): JsonResponse
+    {
+        $contact = Contact::findOrFail($id);
+        if ($this->isFavoriteContact($contact)) {
+            $contact->usersAddedFavorite()->detach(Auth::user());
+            $result = 'Контакт удален из избранного';
+        } else {
+            $contact->usersAddedFavorite()->attach(Auth::user());
+            $result = 'Контакт добавлен в избранное';
+        }
+
+        return response()->json($result);
+    }
+
+    private function isFavoriteContact(Contact $contact): bool
+    {
+        return (bool)$contact->usersAddedFavorite()->find(Auth::id());
     }
 
     public function formatPhoneToSearch(string $phone): string

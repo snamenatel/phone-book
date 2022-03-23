@@ -58,4 +58,9 @@ class ContactController extends Controller
     {
         return $this->repository->destroy($id);
     }
+
+    public function favorite(int $id): JsonResponse
+    {
+        return $this->repository->favorite($id);
+    }
 }

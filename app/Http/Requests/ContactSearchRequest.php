@@ -23,6 +23,7 @@ class ContactSearchRequest extends ApiRequest
             'author' => 'string',
             'name' => 'string',
             'my' => 'boolean',
+            'favorite' => 'boolean',
         ];
     }
 }

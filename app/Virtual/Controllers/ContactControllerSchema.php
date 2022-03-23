@@ -13,6 +13,7 @@ namespace App\Virtual\Controllers;
  *     @OA\Parameter(name="phone", example="79232528636", in="query"),
  *     @OA\Parameter(name="author", example="Ivanov", in="query"),
  *     @OA\Parameter(name="my", example="1", in="query"),
+ *     @OA\Parameter(name="favorite", example="1", in="query"),
  *     @OA\Response (
  *         response="200",
  *         description="Succes",
@@ -124,6 +125,26 @@ namespace App\Virtual\Controllers;
  *     @OA\Response (
  *         response="200",
  *         description="Succes delete"
+ *     ),
+ *     @OA\Response(
+ *        response="401",
+ *        description="Unauthorized",
+ *     ),
+ *     @OA\Response(
+ *        response="404",
+ *        description="Not found",
+ *     )
+ * )
+ *
+ *  @OA\Post (
+ *     path="/contacts/favorite/{contact}",
+ *     summary="Toggle favorite contact",
+ *     tags={"contacts"},
+ *     security={{"sanctum": {}}},
+ *     @OA\Parameter(name="id", example="1", in="path"),
+ *     @OA\Response (
+ *         response="200",
+ *         description="Succes toggle"
  *     ),
  *     @OA\Response(
  *        response="401",

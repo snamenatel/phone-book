@@ -45,4 +45,9 @@ class User extends Authenticatable
     {
         return self::where('email', $email)->first();
     }
+
+    public function favorites()
+    {
+        return $this->belongsToMany(Contact::class);
+    }
 }

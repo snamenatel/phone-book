@@ -29,5 +29,6 @@ Route::group(['prefix' => 'v1'], function() {
     Route::get('/user', [UserController::class, 'show'])->middleware('auth:sanctum')->name('user.show');
 
     Route::resource('contacts', ContactController::class)->middleware('auth:sanctum');
+    Route::post('/contacts/favorite/{contact}', [ContactController::class, 'favorite'])->middleware('auth:sanctum');
 });
 
