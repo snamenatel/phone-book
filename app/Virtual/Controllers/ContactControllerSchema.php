@@ -6,12 +6,12 @@ namespace App\Virtual\Controllers;
 /**
  *  @OA\Get (
  *     path="/contacts",
- *     summary="Get list of contacts",
+ *     summary="Поиск по контактам",
  *     tags={"contacts"},
  *     security={{"sanctum": {}}},
  *     @OA\Parameter(name="name", example="Admin", in="query"),
  *     @OA\Parameter(name="phone", example="79232528636", in="query"),
- *     @OA\Parameter(name="author", example="Ivanov", in="query"),
+ *     @OA\Parameter(name="author", example="Admin", in="query"),
  *     @OA\Parameter(name="my", example="1", in="query"),
  *     @OA\Parameter(name="favorite", example="1", in="query"),
  *     @OA\Response (
@@ -27,7 +27,7 @@ namespace App\Virtual\Controllers;
  *
  *  @OA\Post(
  *     path="/contacts",
- *     summary="Store new contact",
+ *     summary="Сохранение нового контакта",
  *     tags={"contacts"},
  *     security={{"sanctum": {}}},
  *     @OA\RequestBody(
@@ -56,13 +56,13 @@ namespace App\Virtual\Controllers;
  *     ),
  *     @OA\Response(
  *        response="500",
- *        description="Wrong",
+ *        description="Error",
  *     )
  * )
  *
  *  @OA\Patch(
  *     path="/contacts/{contact}",
- *     summary="Update contact",
+ *     summary="Изменение контакта",
  *     tags={"contacts"},
  *     security={{"sanctum": {}}},
  *     @OA\Parameter(name="contact", example="1", in="path"),
@@ -91,13 +91,13 @@ namespace App\Virtual\Controllers;
  *     ),
  *     @OA\Response(
  *        response="500",
- *        description="Wrong",
+ *        description="Error",
  *     )
  * )
  *
  * @OA\Get (
  *     path="/contacts/{id}",
- *     summary="Show contact",
+ *     summary="Просмотр контакта",
  *     tags={"contacts"},
  *     security={{"sanctum": {}}},
  *     @OA\Parameter(name="id", example="1", in="path"),
@@ -118,7 +118,7 @@ namespace App\Virtual\Controllers;
  *
  *  @OA\Delete (
  *     path="/contacts/{id}",
- *     summary="Delete contact",
+ *     summary="Удалить контакт",
  *     tags={"contacts"},
  *     security={{"sanctum": {}}},
  *     @OA\Parameter(name="id", example="1", in="path"),
@@ -138,7 +138,7 @@ namespace App\Virtual\Controllers;
  *
  *  @OA\Post (
  *     path="/contacts/favorite/{contact}",
- *     summary="Toggle favorite contact",
+ *     summary="Добавление/удаление из избранного",
  *     tags={"contacts"},
  *     security={{"sanctum": {}}},
  *     @OA\Parameter(name="id", example="1", in="path"),

@@ -7,7 +7,7 @@ namespace App\Virtual\Controllers;
  *
  * @OA\Post(
  *     path="/register",
- *     summary="Create new user",
+ *     summary="Создание новго пользователя",
  *     tags={"auth"},
  *     security={},
  *     @OA\RequestBody(
@@ -26,7 +26,7 @@ namespace App\Virtual\Controllers;
  *
  * @OA\Post(
  *     path="/login",
- *     summary="Login user",
+ *     summary="Авторизация",
  *     tags={"auth"},
  *     security={},
  *     @OA\RequestBody(
@@ -47,7 +47,7 @@ namespace App\Virtual\Controllers;
  *
  * @OA\Post(
  *     path="/logout",
- *     summary="Logout user",
+ *     summary="Выход",
  *     tags={"auth"},
  *     security={{"sanctum": {}}},
  *     @OA\Response(
@@ -58,7 +58,7 @@ namespace App\Virtual\Controllers;
  *
  * @OA\Post(
  *     path="/password_reset",
- *     summary="Forget password",
+ *     summary="Восстановить пароль по email",
  *     tags={"auth"},
  *     security={},
  *     @OA\RequestBody(
@@ -74,11 +74,10 @@ namespace App\Virtual\Controllers;
  *
  *  @OA\Get (
  *     path="/password_reset",
- *     summary="Get resest password token",
+ *     summary="Получение токена для восстановления пароля",
  *     tags={"auth"},
  *     security={},
  *     @OA\Parameter(name="email", example="test@test.com", in="query"),
- *     @OA\Parameter(name="token", example="token", in="query"),
  *     @OA\Response(
  *        response="200",
  *        description="Sended email with token",
@@ -87,7 +86,7 @@ namespace App\Virtual\Controllers;
  *
  * @OA\Patch (
  *     path="/password_reset",
- *     summary="Update password",
+ *     summary="Сохранение новго пароля",
  *     tags={"auth"},
  *     security={},
  *     @OA\RequestBody(
@@ -110,7 +109,7 @@ namespace App\Virtual\Controllers;
  *
  * @OA\Get(
  *     path="/user",
- *     summary="Get auth user data",
+ *     summary="Получение информации об авторизованном пользователе",
  *     tags={"auth"},
  *     security={{"sanctum": {}}},
  *     @OA\Response (

@@ -19,7 +19,6 @@ return new class extends Migration
             $table->id();
             $table->string('phone')->unique();
             $table->integer('contact_id')->unsigned();
-            $table->timestamps();
         });
     }
 

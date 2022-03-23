@@ -7,7 +7,7 @@ namespace App\Virtual\Resources;
  *  @OA\Schema(
  *      title="ContactResource",
  *      @OA\Property(property="id", type="integer", example="1"),
- *      @OA\Property(property="name", type="string", example="Ilya Dudarek"),
+ *      @OA\Property(property="name", type="string", example="Admin"),
  *      @OA\Property(property="author", type="string", example="Ivanov Ivan"),
  *      @OA\Property(property="created_at", type="string", example="18.03.2022"),
  *      @OA\Property(property="phones",
