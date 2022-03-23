@@ -49,19 +49,13 @@ class ContactController extends Controller
         //
     }
 
-    public function update(Request $request, int $contact)
+    public function update(Request $request, int $id): JsonResponse
     {
-        return $this->repository->update($request, $contact);
+        return $this->repository->update($request, $id);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+    public function destroy(int $id): JsonResponse
     {
-        //
+        return $this->repository->destroy($id);
     }
 }

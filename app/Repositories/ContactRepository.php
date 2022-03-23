@@ -10,6 +10,7 @@ use App\Http\Requests\ContactStoreRequest;
 use App\Http\Resources\ContactResource;
 use App\Models\Contact;
 use App\Models\Phone;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
@@ -47,7 +48,7 @@ class ContactRepository
         return ContactResource::make($contact);
     }
 
-    public function update(Request $request, int $id)
+    public function update(Request $request, int $id): JsonResponse
     {
         $changed = false;
         $contact = Contact::with(['phones'])->findOrFail($id);
@@ -63,6 +64,15 @@ class ContactRepository
         }
 
         return response()->json(['message' => $changed ? 'Контакт был изменен' : 'Нечего изменять']);
+    }
+
+    public function destroy(int $id): JsonResponse
+    {
+        $contact = Contact::findOrFail($id);
+        $contact->phones()->delete();
+        $contact->delete();
+
+        return response()->json(['message' => 'Контакт был удален']);
     }
 
     public function formatPhoneToSearch(string $phone): string

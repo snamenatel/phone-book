@@ -93,4 +93,11 @@ class ContactControllerTest extends TestCase
         $response->assertStatus(Response::HTTP_NOT_FOUND);
     }
 
+    public function test_destroy()
+    {
+        $id = Contact::inRandomOrder()->value('id');
+        $response = $this->deleteJson(route('contacts.destroy', ['contact' => $id]));
+        $response->assertStatus(Response::HTTP_OK);
+        $this->assertNull(Contact::find($id));
+    }
 }

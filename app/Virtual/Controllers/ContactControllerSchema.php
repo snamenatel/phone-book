@@ -64,6 +64,7 @@ namespace App\Virtual\Controllers;
  *     summary="Update contact",
  *     tags={"contacts"},
  *     security={{"sanctum": {}}},
+ *     @OA\Parameter(name="contact", example="1", in="path"),
  *     @OA\RequestBody(
  *          @OA\JsonContent(
  *              @OA\Property(property="name", type="string", example="Ivanov Ivan"),
@@ -103,6 +104,26 @@ namespace App\Virtual\Controllers;
  *         response="200",
  *         description="Succes",
  *         @OA\JsonContent(ref="#/components/schemas/ContactResourceSchema")
+ *     ),
+ *     @OA\Response(
+ *        response="401",
+ *        description="Unauthorized",
+ *     ),
+ *     @OA\Response(
+ *        response="404",
+ *        description="Not found",
+ *     )
+ * )
+ *
+ *  @OA\Delete (
+ *     path="/contacts/{id}",
+ *     summary="Delete contact",
+ *     tags={"contacts"},
+ *     security={{"sanctum": {}}},
+ *     @OA\Parameter(name="id", example="1", in="path"),
+ *     @OA\Response (
+ *         response="200",
+ *         description="Succes delete"
  *     ),
  *     @OA\Response(
  *        response="401",
