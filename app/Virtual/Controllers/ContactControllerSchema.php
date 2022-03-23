@@ -12,6 +12,7 @@ namespace App\Virtual\Controllers;
  *     @OA\Parameter(name="name", example="Admin", in="query"),
  *     @OA\Parameter(name="phone", example="79232528636", in="query"),
  *     @OA\Parameter(name="author", example="Ivanov", in="query"),
+ *     @OA\Parameter(name="my", example="1", in="query"),
  *     @OA\Response (
  *         response="200",
  *         description="Succes",

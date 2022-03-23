@@ -12,6 +12,7 @@ use App\Models\Contact;
 use App\Models\Phone;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
 
 class ContactRepository
 {
@@ -25,6 +26,7 @@ class ContactRepository
             ->when($request->author, function ($query) use ($request) {
                 $query->whereHas('author', fn($q) => $q->where('name', 'LIKE', "%{$request->author}%"));
             })
+            ->when($request->my, fn($q) => $q->where('author_id', Auth::id()))
             ->orderBy('name')
             ->get();
     }
