@@ -29,6 +29,11 @@ class ContactRepository
             ->get();
     }
 
+    public function show(int $id)
+    {
+        return Contact::with(['phones', 'author:id,name'])->findOrFail($id);
+    }
+
     public function store(ContactStoreRequest $request): ContactResource
     {
         if ($this->findByPhones($request->phone)->isNotEmpty()) {
@@ -36,9 +41,18 @@ class ContactRepository
         }
 
         $contact = Contact::create($request->only('name'));
-        $phones = collect($request->phone)->map(fn($el) => ['phone' => $this->formatPhoneToSearch($el)])->toArray();
-        $contact->phones()->createMany($phones);
+        $this->storePhones($contact, $request->phone);
         return ContactResource::make($contact);
+    }
+
+    public function update(Request $request, Contact $contact)
+    {
+        if ($contact->name !== $request->name) {
+            $contact->update(['name' => $request->name]);
+        }
+
+        $contact->phones()->delete();
+        $this->storePhones($contact, $request->phone);
     }
 
     public function formatPhoneToSearch(string $phone): string
@@ -46,8 +60,21 @@ class ContactRepository
         return preg_replace(['/\D/', '/^[78]/'], ['', '+7'], $phone);
     }
 
+    private function storePhones(Contact $contact, array $phones)
+    {
+        $phones = collect($phones)
+            ->map(fn($el) => ['phone' => $this->formatPhoneToSearch($el)])
+            ->toArray();
+        $contact->phones()->createMany($phones);
+    }
+
     private function findByPhones(array $phones): Collection
     {
         return Phone::whereIn('phone', array_map(fn($item) => $this->formatPhoneToSearch($item), $phones))->get();
+    }
+
+    private function find(int $id): Contact
+    {
+        return Contact::with('phones')->find($id);
     }
 }

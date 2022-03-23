@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ContactStoreRequest;
 use App\Http\Requests\ContactSearchRequest;
 use App\Http\Resources\ContactResource;
+use App\Models\Contact;
 use App\Repositories\ContactRepository;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -35,23 +36,14 @@ class ContactController extends Controller
         return $this->repository->store($request);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+
+    public function show(int $id): JsonResponse
     {
-        //
+        return response()->json(
+            ContactResource::make($this->repository->show($id))
+        );
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         //
@@ -66,7 +58,7 @@ class ContactController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        return $this->repository->update($request);
     }
 
     /**

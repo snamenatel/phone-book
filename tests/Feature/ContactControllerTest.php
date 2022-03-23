@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Http\Resources\ContactResource;
 use App\Models\Contact;
 use App\Models\Phone;
 use App\Models\User;
@@ -74,6 +75,22 @@ class ContactControllerTest extends TestCase
         $this->postJson(route('contacts.store', [
                 'name' => self::CONTACT_NAME, 'phone' => [self::CONTACT_PHONE]])
         )->assertStatus(500);
+    }
+
+    public function test_show_success()
+    {
+        $contact = Contact::with(['phones', 'author'])->orderByDesc('id')->first();
+        $response = $this->getJson(route('contacts.show', ['contact' => $contact->id]));
+        $response->assertStatus(Response::HTTP_OK);
+        $response->assertJsonFragment(['name' => $contact->name]);
+        $response->assertJsonFragment(['author' => $contact->author->name]);
+    }
+
+    public function test_show_not_found()
+    {
+        $id = Contact::orderByDesc('id')->value('id');
+        $response = $this->getJson(route('contacts.show', ['contact' => ++$id]));
+        $response->assertStatus(Response::HTTP_NOT_FOUND);
     }
 
 }

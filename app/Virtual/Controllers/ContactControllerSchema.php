@@ -57,6 +57,27 @@ namespace App\Virtual\Controllers;
  *        description="Wrong",
  *     )
  * )
+ *
+ * @OA\Get (
+ *     path="/contacts/{id}",
+ *     summary="Show contact",
+ *     tags={"contacts"},
+ *     security={{"sanctum": {}}},
+ *     @OA\Parameter(name="id", example="1", in="path"),
+ *     @OA\Response (
+ *         response="200",
+ *         description="Succes",
+ *         @OA\JsonContent(ref="#/components/schemas/ContactResourceSchema")
+ *     ),
+ *     @OA\Response(
+ *        response="401",
+ *        description="Unauthorized",
+ *     ),
+ *     @OA\Response(
+ *        response="404",
+ *        description="Not found",
+ *     )
+ * )
  */
 class ContactControllerSchema
 {
