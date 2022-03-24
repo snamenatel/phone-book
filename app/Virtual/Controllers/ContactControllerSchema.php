@@ -137,7 +137,7 @@ namespace App\Virtual\Controllers;
  * )
  *
  *  @OA\Post (
- *     path="/contacts/favorite/{contact}",
+ *     path="/contacts/favorite/{id}",
  *     summary="Добавление/удаление из избранного",
  *     tags={"contacts"},
  *     security={{"sanctum": {}}},
